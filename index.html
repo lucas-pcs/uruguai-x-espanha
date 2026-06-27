@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>URUGUAI v ESPANHA — Aposta Combinada (Balatro style)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --felt:#1f3a2e; --felt2:#16291f; --ink:#0c1410;
+    --red:#ff4d57; --red2:#d62f3a;
+    --blue:#2ec4ff; --blue2:#1788c4;
+    --gold:#ffcf33; --gold2:#e0a800;
+    --paper:#f5efe1; --paperline:#d8cdb4;
+    --white:#fdfbf4;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    font-family:"Oswald",system-ui,sans-serif;
+    color:var(--white);
+    background:
+      radial-gradient(900px 500px at 50% -8%, #2c5743 0, transparent 60%),
+      repeating-linear-gradient(45deg,#1c352a 0 14px,#1a3127 14px 28px),
+      var(--felt2);
+    min-height:100vh;
+  }
+  .pix{font-family:"Pixelify Sans",monospace}
+  .wrap{max-width:1000px;margin:0 auto;padding:30px 18px 90px}
+
+  /* ---- header joker card ---- */
+  .hero{position:relative;text-align:center;margin-bottom:26px}
+  .hero h1{font-family:"Pixelify Sans";font-weight:700;font-size:clamp(30px,7vw,62px);
+    margin:0;line-height:1;letter-spacing:1px;
+    color:var(--gold);text-shadow:4px 4px 0 var(--ink),0 0 26px rgba(255,207,51,.35)}
+  .hero h1 .vs{color:var(--red);text-shadow:4px 4px 0 var(--ink)}
+  .hero .tag{display:inline-block;margin-top:12px;background:var(--ink);
+    border:2px solid var(--gold);border-radius:10px;padding:6px 14px;
+    font-weight:700;letter-spacing:2px;text-transform:uppercase;font-size:12px;color:var(--gold)}
+  .flags{font-size:34px;margin-bottom:6px;filter:drop-shadow(2px 2px 0 #0008)}
+
+  /* ---- balatro score block ---- */
+  .scorebar{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:stretch;margin:24px 0 8px}
+  .chip,.mult,.eq,.score{border-radius:16px;padding:14px 20px;min-width:150px;text-align:center;
+    border:3px solid #0006;box-shadow:0 7px 0 #0006, inset 0 2px 0 #ffffff30}
+  .chip{background:linear-gradient(180deg,var(--blue),var(--blue2))}
+  .mult{background:linear-gradient(180deg,var(--red),var(--red2))}
+  .score{background:linear-gradient(180deg,var(--gold),var(--gold2));color:var(--ink)}
+  .eq{display:flex;align-items:center;justify-content:center;background:transparent;border:none;box-shadow:none;font-family:"Pixelify Sans";font-size:34px;color:#fff;min-width:0;padding:0 4px}
+  .lbl{font-size:11px;letter-spacing:2px;text-transform:uppercase;opacity:.85;font-weight:700}
+  .num{font-family:"Pixelify Sans";font-size:34px;line-height:1.05;font-weight:700}
+  .score .num{color:var(--ink)}
+
+  /* ---- section titles ---- */
+  h2{font-family:"Pixelify Sans";font-weight:700;font-size:24px;margin:42px 0 16px;
+    color:var(--white);letter-spacing:1px;text-shadow:3px 3px 0 #0007}
+  h2 .em{color:var(--gold)}
+
+  /* ---- the hand of cards ---- */
+  .hand{display:flex;flex-wrap:wrap;gap:16px;justify-content:center}
+  .pcard{position:relative;width:168px;min-height:236px;background:var(--paper);
+    border-radius:16px;border:2px solid #0004;
+    box-shadow:0 12px 22px -8px #000a, inset 0 0 0 6px #fff7, inset 0 0 0 8px #0001;
+    color:#1a1208;padding:12px 12px 14px;display:flex;flex-direction:column;
+    transition:transform .12s ease, box-shadow .12s ease;}
+  .hand .pcard:nth-child(odd){transform:rotate(-2.5deg)}
+  .hand .pcard:nth-child(even){transform:rotate(2deg)}
+  .pcard:hover{transform:translateY(-12px) rotate(0deg) scale(1.04);
+    box-shadow:0 26px 40px -12px #000c, inset 0 0 0 6px #fff7, 0 0 0 3px var(--gold)}
+  .pcard .corner{position:absolute;font-family:"Pixelify Sans";font-weight:700;line-height:.9}
+  .pcard .tl{top:9px;left:11px;text-align:left}
+  .pcard .br{bottom:9px;right:11px;text-align:right;transform:rotate(180deg)}
+  .corner .r{font-size:22px}
+  .corner .s{font-size:18px}
+  .pcard .mid{margin:auto 0;text-align:center;padding:6px 2px}
+  .pcard .suit{font-size:40px;line-height:1}
+  .pcard .market{font-weight:700;text-transform:uppercase;letter-spacing:.5px;font-size:12px;color:#6b4a00;margin-top:8px}
+  .pcard .sel{font-weight:600;font-size:14px;margin-top:3px;color:#23170a}
+  .red{color:var(--red2)} .blu{color:var(--blue2)} .grn{color:#1f7a3d} .blk{color:#1a1208}
+  .pcard .odd{position:absolute;bottom:10px;left:11px;font-family:"Pixelify Sans";
+    font-size:13px;background:var(--gold);color:#1a1208;border-radius:6px;padding:1px 6px;border:1px solid #0003}
+
+  /* ---- panels ---- */
+  .panel{background:linear-gradient(180deg,#21402f,#18301f);border:3px solid #0006;border-radius:18px;
+    padding:20px 22px;box-shadow:0 10px 0 #0005, inset 0 2px 0 #ffffff22}
+  .status{display:flex;gap:12px;align-items:flex-start;border-color:var(--gold)}
+  .status .badge{flex:0 0 auto;background:var(--gold);color:var(--ink);font-weight:700;
+    border-radius:8px;padding:4px 10px;font-size:11px;letter-spacing:1px;text-transform:uppercase;font-family:"Pixelify Sans"}
+  .status p{margin:0;font-size:14px;color:#f3e7c4;line-height:1.5}
+
+  /* ---- reel timeline ---- */
+  .reel{list-style:none;margin:0;padding:0}
+  .reel li{display:flex;gap:12px;padding:9px 0;border-bottom:1px dashed #ffffff22;font-size:15px;align-items:baseline}
+  .reel li:last-child{border-bottom:none}
+  .reel .t{font-family:"Pixelify Sans";color:var(--gold);font-size:12px;flex:0 0 64px}
+  .reel b{color:var(--blue)}
+  .quote{border-left:4px solid var(--gold);padding:8px 0 8px 14px;font-style:italic;color:#f0e6cd;margin:0 0 12px}
+  .ok{color:#7CFC8A;font-weight:700}
+
+  footer{margin-top:48px;text-align:center;color:#bcd3c4;font-size:12px;line-height:1.8}
+  footer .pix{color:var(--gold)}
+  .toplabel{text-align:center;font-family:"Pixelify Sans";color:var(--blue);letter-spacing:3px;font-size:13px;margin-bottom:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="toplabel">COPA DO MUNDO 2026 · GRUPO H</div>
+  <div class="hero">
+    <div class="flags">🇺🇾 &nbsp; ⚔️ &nbsp; 🇪🇸</div>
+    <h1>URUGUAI <span class="vs">v</span> ESPANHA</h1>
+    <div class="tag">Aposta Combinada · Criar Aposta · 5 cartas</div>
+  </div>
+
+  <!-- Balatro score: chips x mult = score -->
+  <div class="scorebar">
+    <div class="chip"><div class="lbl">Aposta (chips)</div><div class="num">R$0,50</div></div>
+    <div class="eq pix">×</div>
+    <div class="mult"><div class="lbl">Odds (mult)</div><div class="num">~3×</div></div>
+    <div class="eq pix">=</div>
+    <div class="score"><div class="lbl">Retorno</div><div class="num">R$1,50</div></div>
+  </div>
+
+  <h2>🃏 A <span class="em">mão</span> — 5 seleções</h2>
+  <div class="hand">
+
+    <div class="pcard">
+      <div class="corner tl red"><div class="r">2.5</div><div class="s">♥</div></div>
+      <div class="corner br red"><div class="r">2.5</div><div class="s">♥</div></div>
+      <div class="mid">
+        <div class="suit red">♥</div>
+        <div class="market">Cartões</div>
+        <div class="sel">Mais de 2.5 <span class="red">(sem vermelho)</span></div>
+      </div>
+      <div class="odd">1.66</div>
+    </div>
+
+    <div class="pcard">
+      <div class="corner tl blu"><div class="r">8</div><div class="s">♦</div></div>
+      <div class="corner br blu"><div class="r">8</div><div class="s">♦</div></div>
+      <div class="mid">
+        <div class="suit blu">♦</div>
+        <div class="market">Escanteios</div>
+        <div class="sel">Mais de (linha base)</div>
+      </div>
+      <div class="odd">1.28</div>
+    </div>
+
+    <div class="pcard">
+      <div class="corner tl blk"><div class="r">19</div><div class="s">♠</div></div>
+      <div class="corner br blk"><div class="r">19</div><div class="s">♠</div></div>
+      <div class="mid">
+        <div class="suit blk">♠</div>
+        <div class="market">Total de Chutes</div>
+        <div class="sel">Mais de (linha base)</div>
+      </div>
+      <div class="odd">1.05</div>
+    </div>
+
+    <div class="pcard">
+      <div class="corner tl grn"><div class="r">1.5</div><div class="s">♣</div></div>
+      <div class="corner br grn"><div class="r">1.5</div><div class="s">♣</div></div>
+      <div class="mid">
+        <div class="suit grn">♣</div>
+        <div class="market">Impedimentos</div>
+        <div class="sel">Mais de (linha base)</div>
+      </div>
+      <div class="odd">1.20</div>
+    </div>
+
+    <div class="pcard">
+      <div class="corner tl red"><div class="r">5.5</div><div class="s">♥</div></div>
+      <div class="corner br red"><div class="r">5.5</div><div class="s">♥</div></div>
+      <div class="mid">
+        <div class="suit red">♥</div>
+        <div class="market">Chutes ao Gol</div>
+        <div class="sel">Mais de 5.5</div>
+      </div>
+      <div class="odd">1.53</div>
+    </div>
+
+  </div>
+
+  <h2 style="margin-top:38px">📍 <span class="em">Status</span></h2>
+  <div class="panel status">
+    <span class="badge">Planejada</span>
+    <p>Combinada de 5 mercados (sem cartão vermelho) montada e verificada contra as odds ao vivo,
+    com retorno-alvo de ~3×. O combinado exato é calculado pelas <b>Odds Dinâmicas</b> e deve ser
+    lido no bilhete antes de confirmar. <b>Aposta envolve dinheiro real — 18+ · jogue com responsabilidade.</b></p>
+  </div>
+
+  <h2>🎬 O <span class="em">reel</span> — @omurilovalle</h2>
+  <div class="panel">
+    <p class="quote">"e assim eu vou perdendo todos os meus bolões e apostas kkkkkkk"</p>
+    <ul class="reel">
+      <li><span class="t">00–05s</span><span>"peixe / rato / urso é um bicho muito idiota né…" <span style="opacity:.7">(anzol · ratoeira · armadilha)</span></span></li>
+      <li><span class="t">06–09s</span><span>"menos de 3x0 pra Inglaterra" → <b>Inglaterra 0×0 Gana</b> · "eu nem comemoro…"</span></li>
+      <li><span class="t">11–14s</span><span>"Suíça x Catar — vitória fácil" → <b>Catar 1×1 Suíça</b></span></li>
+      <li><span class="t">15–18s</span><span>"Espanha x Cabo Verde — uns 8x0" → <b>Espanha 0×0 Cabo Verde</b></span></li>
+      <li><span class="t">20–24s</span><span>"os Estados Unidos filho, não tem chance" → <b>EUA 4×1 Paraguai</b></span></li>
+      <li><span class="t">26–30s</span><span>"vai ganhar a Arábia Saudita, fácil" → <b>Arábia 1×1 Uruguai</b></span></li>
+      <li><span class="t">32–38s</span><span>"Papai Cris vai meter uns 3… 3x0 Portugal" → <b>Portugal 1×1 RD Congo</b></span></li>
+    </ul>
+    <p style="margin:14px 0 0;font-size:13px">Transcrição verificada por agente revisor independente: <span class="ok">ACURADA</span> — sem correções.</p>
+  </div>
+
+  <footer>
+    <div class="pix">JOGUE COM RESPONSABILIDADE · 18+</div>
+    Apostas envolvem dinheiro real e risco. Página feita só por diversão, estilo <span class="pix">Balatro</span>.
+  </footer>
+
+</div>
+</body>
+</html>
